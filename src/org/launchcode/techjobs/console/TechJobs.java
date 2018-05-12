@@ -1,11 +1,10 @@
 package org.launchcode.techjobs.console;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by LaunchCode
+ * 180510 Modified by Megan Hart
  */
 public class TechJobs {
 
@@ -59,11 +58,16 @@ public class TechJobs {
                 // What is their search term?
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
+                String firstLetter = searchTerm.substring(0, 0);
+                String upper = firstLetter.toUpperCase();
+                String lower = firstLetter.toLowerCase();
+                String upperTerm = upper.concat(searchTerm.substring(1));
+                String lowerTerm = lower.concat(searchTerm.substring(1));
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(upperTerm, lowerTerm));
                 } else {
-                    printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+                    printJobs(JobData.findByColumnAndValue(searchField, upperTerm, lowerTerm));
                 }
             }
         }
@@ -110,7 +114,33 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        if (someJobs.size() != 0){  //results
+            // HashMap<String, String> bothMaps =  new HashMap<>();
+            for (HashMap h : someJobs) {  // I have a hashmap in someJobs
+                //Set key = h.keySet();
+                //Collection value = h.values();
+                System.out.println("\n*****");  //print me a start line
+                for (Object name : h.keySet()){ //for some odd reason, name won't work as anything but an object, loop me some keys
+                    String key = name.toString(); //name is the key value...woot!
+                    String value = h.get(name).toString(); //h.get(keyvalue) works!
+                    System.out.println(key + " : " + value); //print pretty
+                }
+                System.out.println("*****\n"); //and close each section
+            }
+                /* I tried so many ways to get this to work:
+            for (Integer j = 0; j < someJobs.size(); j++) { // arraylist to pull out hashmaps
+                for (Map.Entry<String, String> job : someJobs(j).entrySet()){ //through the hashmap
+                    //I need the column names as a loop to be the key and match with the value this loop is outputing.
+                    System.out.println(job);
 
-        System.out.println("printJobs is not implemented yet");
+                   // System.out.println("\n*****\n All " + columnChoices.get(columnChoice) + " Values \n*****\n");
+                }
+            }
+*/
+        } else { // no results
+        System.out.println("No results found please try again");
+    }
+
+
     }
 }

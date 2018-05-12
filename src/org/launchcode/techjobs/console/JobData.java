@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by LaunchCode
+ * 180510 Modified by Megan Hart
  */
 public class JobData {
 
@@ -62,10 +63,10 @@ public class JobData {
      * with "Enterprise Holdings, Inc".
      *
      * @param column   Column that should be searched.
-     * @param value Value of teh field to search for
+     *  Value of teh field to search for
      * @return List of all jobs matching the criteria
      */
-    public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
+    public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String upper, String lower) {
 
         // load data, if not already loaded
         loadData();
@@ -76,7 +77,7 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.contains(upper) || (aValue.contains(lower))) {
                 jobs.add(row);
             }
         }
@@ -123,6 +124,27 @@ public class JobData {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
+    }
+    public static ArrayList<HashMap<String, String>> findByValue(String upper, String lower) {
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            for (String eachItem : row.values()){
+                if (eachItem.contains(upper) || eachItem.contains(lower)) {
+                    if (jobs.contains(row)){
+                        continue;
+                    }
+                    else {
+                        jobs.add(row);
+                    }
+                }
+            }
+        }
+
+        return jobs;
     }
 
 }
