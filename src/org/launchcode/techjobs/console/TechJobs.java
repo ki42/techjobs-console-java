@@ -57,17 +57,21 @@ public class TechJobs {
 
                 // What is their search term?
                 System.out.println("\nSearch term: ");
-                String searchTerm = in.nextLine();
+                String searchTerm = in.nextLine().toLowerCase();
+
+                /*
                 String firstLetter = searchTerm.substring(0, 0);
                 String upper = firstLetter.toUpperCase();
                 String lower = firstLetter.toLowerCase();
                 String upperTerm = upper.concat(searchTerm.substring(1));
                 String lowerTerm = lower.concat(searchTerm.substring(1));
+                */
 
                 if (searchField.equals("all")) {
-                    printJobs(JobData.findByValue(upperTerm, lowerTerm));
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
-                    printJobs(JobData.findByColumnAndValue(searchField, upperTerm, lowerTerm));
+
+                    printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
             }
         }

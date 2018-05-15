@@ -66,7 +66,7 @@ public class JobData {
      *  Value of teh field to search for
      * @return List of all jobs matching the criteria
      */
-    public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String upper, String lower) {
+    public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String search) {
 
         // load data, if not already loaded
         loadData();
@@ -75,9 +75,9 @@ public class JobData {
 
         for (HashMap<String, String> row : allJobs) {
 
-            String aValue = row.get(column);
+            String aValue = row.get(column).toLowerCase();
 
-            if (aValue.contains(upper) || (aValue.contains(lower))) {
+            if (aValue.equals(search)) {
                 jobs.add(row);
             }
         }
@@ -125,7 +125,7 @@ public class JobData {
             e.printStackTrace();
         }
     }
-    public static ArrayList<HashMap<String, String>> findByValue(String upper, String lower) {
+    public static ArrayList<HashMap<String, String>> findByValue(String search) {
         // load data, if not already loaded
         loadData();
 
@@ -133,16 +133,17 @@ public class JobData {
 
         for (HashMap<String, String> row : allJobs) {
             for (String eachItem : row.values()){
-                if (eachItem.contains(upper) || eachItem.contains(lower)) {
-                    if (jobs.contains(row)){
+                String lower = eachItem.toLowerCase();
+                if (lower.contains(search)) {
+                    if (jobs.contains(row)) {
                         continue;
-                    }
-                    else {
+                    } else {
                         jobs.add(row);
+                        }
                     }
                 }
             }
-        }
+
 
         return jobs;
     }
